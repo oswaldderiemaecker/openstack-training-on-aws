@@ -100,7 +100,7 @@ yum install ntpdate -y
 ntpdate -u 0.europe.pool.ntp.org
 ```
 
-## 1.7 Set OpenStack Queens Repository
+## 1.7 Set OpenStack Rocky Repository
 
 **On all Nodes install:**
 
