@@ -30,9 +30,11 @@ echo '172.31.32.70 controller.example.com controller
 172.31.32.70 network.example.com network' >> /etc/hosts
 ```
 
-1st Interface: Public
-2nd Interface: Management (172.31.32.70)
-3rd Interface: Provider
+The interface are set as:
+
+* 1st Interface: Public
+* 2nd Interface: Management (172.31.32.70)
+* 3rd Interface: Provider
 
 ## 1.3 Stop and disable firewalld & NetworkManager Service
 
