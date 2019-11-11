@@ -1,6 +1,8 @@
-For the Newton openstack setup we must have one virtual machine ready with at least below requirement:
+For the Rocky openstack setup we must have one virtual machine ready with at least below requirement:
 
 * Controller Node: 2 processor, 8 GB memory, and 16 GB storage
+
+You can use the AWS CloudFormation template to create a Stack with a Controller.
 
 For simplicity we will use the password **rootroot** for all passwords.
 
