@@ -1,0 +1,272 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata:
+  License: Apache-2.0
+Description:  This template deploys a VPC, with a pair of public and private subnets spread
+  across two Availability Zones. It deploys an Internet Gateway, with a default
+  route on the public subnets. It deploys a pair of NAT Gateways (one in each AZ),
+  and default routes for them in the private subnets.
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  VpcCIDR:
+    Description: Please enter the IP range (CIDR notation) for this VPC
+    Type: String
+    Default: 172.31.0.0/16
+
+  ManagementSubnetCIDR:
+    Description: Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone
+    Type: String
+    Default: 172.31.32.0/24
+
+  ProviderSubnetCIDR:
+    Description: Please enter the IP range (CIDR notation) for the public subnet in the second Availability Zone
+    Type: String
+    Default: 172.31.33.0/24
+
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: AWS::EC2::KeyPair::KeyName
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+
+Mappings:
+  AWSInstanceType2Arch:
+      t3.medium:
+        Arch: HVM64
+      t3.xlarge:
+        Arch: HVM64
+
+  AWSRegionArch2AMI:
+    us-east-1:
+      HVM64: ami-02eac2c0129f6376b
+    us-east-2:
+      HVM64: ami-0f2b4fc905b0bd1f1
+    us-west-2:
+      HVM64: ami-01ed306a12b7d1c96
+    us-west-1:
+      HVM64: ami-02b9d47aea41e25f5
+    eu-west-1:
+      HVM64: ami-0ff760d16d9497662
+    eu-central-1:
+      HVM64: ami-04cf43aca3e6f3de3
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Ref EnvironmentName
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref EnvironmentName
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+
+  ManagementSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: !Ref ManagementSubnetCIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
+
+  ProviderSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, !GetAZs  '' ]
+      CidrBlock: !Ref ProviderSubnetCIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Routes
+
+  DefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  ManagementSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref ManagementSubnet
+
+  ProviderSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref ProviderSubnet
+
+  NoIngressSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "no-ingress-sg"
+      GroupDescription: "Security group with no ingress rule"
+      VpcId: !Ref VPC
+
+  ControllerManagementInterface:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      SubnetId: !Ref ManagementSubnet
+      Description: Interface for management traffic
+      GroupSet:
+      - !Ref NodeSecurityGroup
+      SourceDestCheck: true
+      Tags:
+        -
+          Key: Network
+          Value: Management
+
+  ControllerProviderInterface:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      SubnetId: !Ref ProviderSubnet
+      Description: Interface for provider traffic
+      GroupSet:
+      - !Ref NodeSecurityGroup
+      SourceDestCheck: true
+      Tags:
+        -
+          Key: Network
+          Value: Provider
+
+  ControllerPublicInterface:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      SubnetId: !Ref ProviderSubnet
+      Description: Interface for provider traffic
+      GroupSet:
+      - !Ref NodeSecurityGroup
+      SourceDestCheck: true
+      Tags:
+        -
+          Key: Network
+          Value: Provider
+
+  OpenStackEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  ControllerNodeEIPAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !GetAtt OpenStackEIP.AllocationId
+      NetworkInterfaceId: !Ref ControllerPublicInterface
+
+  ControllerNode:
+    Type: AWS::EC2::Instance
+    Properties:
+        ImageId: !FindInMap [ AWSRegionArch2AMI, !Ref 'AWS::Region' , !FindInMap [ AWSInstanceType2Arch, t3.xlarge, Arch ] ]
+        KeyName: !Ref KeyName
+        InstanceType: t3.xlarge
+        AvailabilityZone: !Select [ 0, !GetAZs  '' ]
+        NetworkInterfaces:
+        - NetworkInterfaceId: !Ref ControllerPublicInterface
+          DeviceIndex: 0
+        - NetworkInterfaceId: !Ref ControllerManagementInterface
+          DeviceIndex: 1
+        - NetworkInterfaceId: !Ref ControllerProviderInterface
+          DeviceIndex: 2
+        BlockDeviceMappings:
+        -
+          DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 40
+        -
+          DeviceName: /dev/sdb
+          Ebs:
+            VolumeSize: 40
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash -xe
+            echo "GATEWAYDEV=eth0" >> /etc/sysconfig/network
+            cat <<EOF > /etc/sysconfig/network-scripts/ifcfg-ens6
+            BOOTPROTO=dhcp
+            DEVICE=ens6
+            ONBOOT=yes
+            TYPE=Ethernet
+            USERCTL=no
+            EOF
+            ifup ens6
+            cat <<EOF > /etc/sysconfig/network-scripts/ifcfg-ens7
+            BOOTPROTO=dhcp
+            DEVICE=ens7
+            ONBOOT=yes
+            TYPE=Ethernet
+            USERCTL=no
+            EOF
+            ifup ens7
+        Tags:
+          -
+            Key: Name
+            Value: !Sub ${EnvironmentName}-ControllerNode
+
+  NodeSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !Ref VPC
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+      - CidrIp: 0.0.0.0/0
+        FromPort: 22
+        IpProtocol: tcp
+        ToPort: 22
+      - CidrIp: 0.0.0.0/0
+        FromPort: 80
+        IpProtocol: tcp
+        ToPort: 80
+
+Outputs:
+  VPC:
+    Description: A reference to the created VPC
+    Value: !Ref VPC
+
+  PublicSubnets:
+    Description: A list of the public subnets
+    Value: !Join [ ",", [ !Ref ManagementSubnet, !Ref ProviderSubnet ]]
+
+  ManagementSubnet:
+    Description: A reference to the public subnet in the 1st Availability Zone
+    Value: !Ref ManagementSubnet
+
+  ProviderSubnet:
+    Description: A reference to the public subnet in the 2nd Availability Zone
+    Value: !Ref ProviderSubnet
+
+  NoIngressSecurityGroup:
+    Description: Security group with no ingress rule
+    Value: !Ref NoIngressSecurityGroup
+
+  #OpenStackEIP:
+  #  Description: OpenStack Elastic IP
+  #  Value: !Ref OpenStackEIP
