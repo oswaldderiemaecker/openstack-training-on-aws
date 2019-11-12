@@ -95,7 +95,7 @@ export OS_PROJECT_DOMAIN_NAME=Default
 export OS_IDENTITY_API_VERSION=3" > keystonerc_admin
 
 . keystonerc_admin
-openstack project create --domain default --description "Service Project" services
+openstack project create --domain default --description "Service Project" service
 openstack project create --domain default --description "Demo Project" demo
 openstack user create --domain default --password rootroot demo # to-check
 openstack role create user
@@ -105,7 +105,7 @@ openstack role add --project demo --user demo user
 
 mysql -u root -prootroot -e "CREATE DATABASE glance; GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY 'rootroot'; GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY 'rootroot';"
 openstack user create --domain default --password rootroot glance
-openstack role add --project services --user glance admin
+openstack role add --project service --user glance admin
 openstack service create --name glance --description "OpenStack Image" image
 openstack endpoint create --region RegionOne image public http://controller.example.com:9292
 openstack endpoint create --region RegionOne image internal http://controller.example.com:9292
@@ -129,7 +129,7 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
-project_name = services
+project_name = service
 username = glance
 password = rootroot
 
@@ -152,7 +152,7 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
-project_name = services
+project_name = service
 username = glances
 password = rootroot
 
@@ -189,13 +189,13 @@ mysql -u root -prootroot -e "GRANT ALL PRIVILEGES ON placement.* TO 'placement'@
 . keystonerc_admin
 
 openstack user create --domain default --password rootroot nova
-openstack role add --project services --user nova admin
+openstack role add --project service --user nova admin
 openstack service create --name nova --description "OpenStack Compute" compute
 openstack endpoint create --region RegionOne compute public http://controller:8774/v2.1
 openstack endpoint create --region RegionOne compute internal http://controller:8774/v2.1
 openstack endpoint create --region RegionOne compute admin http://controller:8774/v2.1
 openstack user create --domain default --password rootroot placement
-openstack role add --project services --user placement admin
+openstack role add --project service --user placement admin
 openstack service create --name placement --description "Placement API" placement
 openstack endpoint create --region RegionOne placement public http://controller.example.com:8778
 openstack endpoint create --region RegionOne placement internal http://controller.example.com:8778
@@ -227,7 +227,7 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = default
 user_domain_name = default
-project_name = services
+project_name = service
 username = nova
 password = rootroot
 
@@ -246,7 +246,7 @@ lock_path = /var/lib/nova/tmp
 [placement]
 region_name = RegionOne
 project_domain_name = Default
-project_name = services
+project_name = service
 auth_type = password
 user_domain_name = Default
 auth_url = http://controller:5000/v3
@@ -301,7 +301,7 @@ openstack compute service list
 
 mysql -u root -prootroot -e "CREATE DATABASE neutron; GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY 'rootroot'; GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' IDENTIFIED BY 'rootroot';"
 openstack user create --domain default --password rootroot neutron
-openstack role add --project services --user neutron admin
+openstack role add --project service --user neutron admin
 openstack service create --name neutron --description "OpenStack Networking" network
 openstack endpoint create --region RegionOne network public http://controller.example.com:9696
 openstack endpoint create --region RegionOne network internal http://controller.example.com:9696
@@ -330,7 +330,7 @@ auth_url=http://controller:5000
 username=neutron
 password=rootroot
 user_domain_name=Default
-project_name=services
+project_name=service
 project_domain_name=Default
 
 [nova]
@@ -338,7 +338,7 @@ region_name=RegionOne
 auth_url=http://controller:5000
 auth_type=password
 project_domain_name=Default
-project_name=services
+project_name=service
 user_domain_name=Default
 username=nova
 password=rootroot
@@ -406,7 +406,7 @@ auth_type = password
 project_domain_name = default
 user_domain_name = default
 region_name = RegionOne
-project_name = services
+project_name = service
 username = neutron
 password = rootroot
 service_metadata_proxy = true
@@ -452,7 +452,7 @@ openstack hypervisor list
 mysql -u root -prootroot -e "CREATE DATABASE cinder; GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' IDENTIFIED BY 'rootroot'; GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'%' IDENTIFIED BY 'rootroot';"
 
 openstack user create --domain default --password rootroot cinder
-openstack role add --project services --user cinder admin
+openstack role add --project service --user cinder admin
 openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
 openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
 openstack endpoint create --region RegionOne volumev2 public http://controller:8776/v2/%\(project_id\)s
@@ -482,7 +482,7 @@ memcached_servers = 127.0.0.1:11211
 auth_type = password
 project_domain_id = default
 user_domain_id = default
-project_name = services
+project_name = service
 username = cinder
 password = rootroot
 
@@ -557,4 +557,3 @@ systemctl status openstack-cinder-backup.service
 # Horizon
 
 yum install openstack-dashboard -y
-

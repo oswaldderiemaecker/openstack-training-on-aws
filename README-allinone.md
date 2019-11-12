@@ -310,7 +310,7 @@ Set the environment:
 Create the service project:
 
 ```bash
-openstack project create --domain default --description "Service Project" services
+openstack project create --domain default --description "Service Project" service
 ```
 
 Create the demo project:
@@ -382,7 +382,7 @@ openstack user create --domain default --password-prompt glance
 Add the admin role to the glance user and service project:
 
 ```bash
-openstack role add --project services --user glance admin
+openstack role add --project service --user glance admin
 ```
 
 Create the glance service entity:
@@ -425,7 +425,7 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
-project_name = services
+project_name = service
 username = glance
 password = rootroot
 
@@ -450,7 +450,7 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = Default
 user_domain_name = Default
-project_name = services
+project_name = service
 username = glances
 password = rootroot
 
@@ -556,7 +556,7 @@ openstack user create --domain default --password-prompt nova
 Add the admin role to the nova user:
 
 ```bash
-openstack role add --project services --user nova admin
+openstack role add --project service --user nova admin
 ```
 
 Create the nova service entity:
@@ -582,7 +582,7 @@ openstack user create --domain default --password-prompt placement
 Add the admin role to the nova placement user:
 
 ```bash
-openstack role add --project services --user placement admin
+openstack role add --project service --user placement admin
 ```
 
 Create the nova placement service entity:
@@ -633,7 +633,7 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = default
 user_domain_name = default
-project_name = services
+project_name = service
 username = nova
 password = rootroot
 
@@ -651,7 +651,7 @@ lock_path = /var/lib/nova/tmp
 [placement]
 region_name = RegionOne
 project_domain_name = Default
-project_name = services
+project_name = service
 auth_type = password
 user_domain_name = Default
 auth_url = http://controller:5000/v3
@@ -731,7 +731,7 @@ Verify nova cell0 and cell1 are registered correctly:
 nova-manage cell_v2 list_cells
 ```
 
-Start the Compute services and configure them to start when the system boots:
+Start the Compute service and configure them to start when the system boots:
 
 ```bash
 systemctl enable openstack-nova-api.service openstack-nova-consoleauth openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
@@ -763,7 +763,7 @@ memcached_servers = controller:11211
 auth_type = password
 project_domain_name = default
 user_domain_name = default
-project_name = services
+project_name = service
 username = nova
 password = rootroot
 
@@ -782,7 +782,7 @@ lock_path = /var/lib/nova/tmp
 [placement]
 region_name = RegionOne
 project_domain_name = Default
-project_name = services
+project_name = service
 auth_type = password
 user_domain_name = Default
 auth_url = http://controller:5000/v3
@@ -879,7 +879,7 @@ openstack user create --domain default --password-prompt neutron
 Add the admin role to the neutron user:
 
 ```bash
-openstack role add --project services --user neutron admin
+openstack role add --project service --user neutron admin
 ```
 
 Create the neutron service entity:
@@ -929,7 +929,7 @@ auth_url=http://controller:5000
 username=neutron
 password=rootroot
 user_domain_name=Default
-project_name=services
+project_name=service
 project_domain_name=Default
 
 [nova]
@@ -937,7 +937,7 @@ region_name=RegionOne
 auth_url=http://controller:5000
 auth_type=password
 project_domain_name=Default
-project_name=services
+project_name=service
 user_domain_name=Default
 username=nova
 password=rootroot
@@ -1051,7 +1051,7 @@ auth_url=http://controller:35357
 username=neutron
 password=rootroot
 user_domain_name=Default
-project_name=services
+project_name=service
 project_domain_name=Default
 
 [oslo_concurrency]
@@ -1070,7 +1070,7 @@ auth_type = password
 project_domain_name = default
 user_domain_name = default
 region_name = RegionOne
-project_name = services
+project_name = service
 username = neutron
 password = rootroot
 service_metadata_proxy = true
@@ -1268,7 +1268,7 @@ openstack user create --domain default --password-prompt cinder
 Add the admin role to the glance user and service project:
 
 ```bash
-openstack role add --project services --user cinder admin
+openstack role add --project service --user cinder admin
 ```
 
 Create the glance service entity:
@@ -1315,7 +1315,7 @@ memcached_servers = 127.0.0.1:11211
 auth_type = password
 project_domain_id = default
 user_domain_id = default
-project_name = services
+project_name = service
 username = cinder
 password = rootroot
 
@@ -1359,7 +1359,7 @@ Restart the Compute API service:
 systemctl restart openstack-nova-api.service
 ```
 
-Start the Block Storage services and configure them to start when the system boots:
+Start the Block Storage service and configure them to start when the system boots:
 ```bash
 systemctl enable openstack-cinder-api.service openstack-cinder-scheduler.service
 systemctl start openstack-cinder-api.service openstack-cinder-scheduler.service

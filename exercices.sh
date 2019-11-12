@@ -93,7 +93,8 @@ openstack server list
 openstack server show mywebinstance
 ip netns list
 ROUTER=$(ip netns ls | grep router | awk {'print $1'})
-ip netns exec $ROUTER ssh -i $HOME/.ssh/myuser-key cirros@10.0.30.20 touch testing.txt
+IP=$(openstack server list --name mywebinstance -f value -c Networks | awk -F"public=" '/public=/{print $2}')
+ip netns exec $ROUTER ssh -i $HOME/.ssh/myuser-key cirros@$IP touch testing.txt
 
 . keystonerc_myuser
 nova image-create mywebinstance mynewwebinstance-image
@@ -103,7 +104,8 @@ openstack server create --flavor myflavor --image mynewwebinstance-image --secur
 openstack server list
 ip netns list
 ROUTER=$(ip netns ls | grep router | awk {'print $1'})
-ip netns exec $ROUTER ssh -i $HOME/.ssh/myuser-key cirros@10.0.30.18 ls -l
+IP=$(openstack server list --name mywebinstance-from-new-image -f value -c Networks | awk -F"public=" '/public=/{print $2}')
+ip netns exec $ROUTER ssh -i $HOME/.ssh/myuser-key cirros@$IP ls -l
 
 . keystonerc_myuser
 openstack volume list
@@ -112,7 +114,8 @@ openstack snapshot list
 openstack volume create --size 1 --snapshot mytestvolume1-snapshot mynewtestvolume1-from-snapshot
 openstack server add volume --device /dev/vdb mywebinstance-from-new-image mynewtestvolume1-from-snapshot
 openstack server show mywebinstance-from-new-image
-ip netns exec $ROUTER ssh -i $HOME/.ssh/myuser-key cirros@10.0.30.18 sudo fdisk -l
+IP=$(openstack server list --name mywebinstance-from-new-image -f value -c Networks | awk -F"public=" '/public=/{print $2}')
+ip netns exec $ROUTER ssh -i $HOME/.ssh/myuser-key cirros@$IP sudo fdisk -l
 openstack server remove volume mywebinstance-from-new-image mynewtestvolume1-from-snapshot
 openstack volume snapshot delete mytestvolume1-snapshot
 openstack server remove volume mywebinstance-from-new-image  mynewtestvolume1-from-snapshot
