@@ -54,10 +54,10 @@ setenforce 0 ; sed -i 's/=enforcing/=disabled/g' /etc/sysconfig/selinux
 getenforce
 ```
 
-## 1.4 Upgrade the OS and reboot:
+## 1.4 Update the repo
 
 ```bash
-yum update -y ; # reboot
+yum update -y
 ```
 
 ## 1.5 Verify connectivity

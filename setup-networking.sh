@@ -101,3 +101,4 @@ openstack router list
 openstack router show extrouter
 openstack volume service list
 nova-status upgrade check
+vgdisplay
