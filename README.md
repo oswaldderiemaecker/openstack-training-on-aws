@@ -8,7 +8,7 @@ This is a "all in one" installation where everything is on the Controller.
 
 It is recommended to make snapshots often so you can go back if any goes wrong.
 
-The purpose is of training is to learn by installing an OpenStack from Scratch.
+The purpose of this training is to learn by installing an OpenStack from Scratch.
 
 Follow the instructions steps by steps.
 
@@ -989,9 +989,9 @@ enable_security_group = true
 firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
 ```
 
-Replace PROVIDER_INTERFACE_NAME with the name of the underlying provider physical network interface.
+Replace **PROVIDER_INTERFACE_NAME** with the name of the underlying provider physical network interface.
 
-Replace OVERLAY_INTERFACE_IP_ADDRESS with the IP address of the underlying physical network interface that handles overlay networks. The example architecture uses the management interface to tunnel traffic to the other nodes. Therefore, replace OVERLAY_INTERFACE_IP_ADDRESS with the management IP address of the controller node. See Host networking for more information.
+Replace **OVERLAY_INTERFACE_IP_ADDRESS** with the IP address of the underlying physical network interface that handles overlay networks. The example architecture uses the management interface to tunnel traffic to the other nodes. Therefore, replace **OVERLAY_INTERFACE_IP_ADDRESS** with the management IP address of the controller node. See Host networking for more information.
 
 Ensure your Linux operating system kernel supports network bridge filters by verifying all the following sysctl values are set to 1:
 
