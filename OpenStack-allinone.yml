@@ -205,7 +205,15 @@ Resources:
         -
           DeviceName: /dev/sdb
           Ebs:
-            VolumeSize: 40
+            VolumeSize: 20
+        -
+          DeviceName: /dev/sdc
+          Ebs:
+            VolumeSize: 20
+        -
+          DeviceName: /dev/sdd
+          Ebs:
+            VolumeSize: 20
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash -xe
