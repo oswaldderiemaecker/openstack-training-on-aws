@@ -1,12 +1,16 @@
-For the Rocky openstack setup we must have one virtual machine ready with at least below requirement:
+# OpenStack Rocky on AWS (Training)
 
-* Controller Node: 2 processor, 8 GB memory, and 16 GB storage
-
-You can use the AWS CloudFormation template to create a Stack with a Controller.
+Use the [AWS CloudFormation template](OpenStack-allinone.yml) to create an OpenStack Base install Stack.
 
 For simplicity we will use the password **rootroot** for all passwords.
 
+This is a "all in one" installation where everything is on the Controller.
+
 It is recommended to make snapshots often so you can go back if any goes wrong.
+
+The purpose is of training is to learn by installing an OpenStack from Scratch.
+
+Follow the instructions steps by steps.
 
 # 1 Base Installation
 
