@@ -1461,49 +1461,6 @@ systemctl status openstack-cinder-volume.service
 systemctl status openstack-cinder-backup.service
 ```
 
-## 2.8 Finalize the configuration of OpenStack
-
-Create Flavors:
-
-```bash
-openstack flavor create --id 0 --ram 512   --vcpus 1 --disk 1  m1.tiny
-openstack flavor create --id 1 --ram 1024  --vcpus 1 --disk 1  m1.small
-openstack flavor create --id 2 --ram 2048  --vcpus 1 --disk 1  m1.large
-```
-## 2.8.1 Do the network Configuration:
-
-Create Public Floating Network (All Tenants)
-
-This is the virtual network that OpenStack will bridge to the outside world. You will assign public IPs to your instances from this network.
-
-```bash
-. keystonerc_admin
-neutron net-create public --shared --router:external=True --provider:network_type=vxlan --provider:segmentation_id=96
-neutron subnet-create --name public_subnet --enable-dhcp --allocation-pool start=192.168.178.100,end=192.168.178.150 public 192.168.178.0/24
-```
-
-Ensure to update the IPs for the allocation-pool and netmask with your local IPs.
-
-Setup Tenant Network/Subnet
-
-This is the private network your instances will attach to. Instances will be issued IPs from this private IP subnet.
-
-```bash
-. keystonerc_demo
-neutron net-create private
-neutron subnet-create --name private_subnet --dns-nameserver 8.8.8.8 --dns-nameserver 8.8.4.4 --allocation-pool start=10.0.30.10,end=10.0.30.254 private 10.0.30.0/24
-```
-
-Create an External Router to Attach to floating IP Network
-
-This router will attach to your private subnet and route to the public network, which is where your floating IPs are located.
-
-```bash
-neutron router-create extrouter
-neutron router-gateway-set extrouter public
-neutron router-interface-add extrouter private_subnet
-```
-
 Restart the services:
 
 ```bash
@@ -1699,6 +1656,51 @@ Nova Status:
 ```bash
 nova-status upgrade check
 ```
+
+## 2.8 Finalize the configuration of OpenStack
+
+Create Flavors:
+
+```bash
+openstack flavor create --id 0 --ram 512   --vcpus 1 --disk 1  m1.tiny
+openstack flavor create --id 1 --ram 1024  --vcpus 1 --disk 1  m1.small
+openstack flavor create --id 2 --ram 2048  --vcpus 1 --disk 1  m1.large
+```
+## 2.8.1 Do the network Configuration:
+
+Create Public Floating Network (All Tenants)
+
+This is the virtual network that OpenStack will bridge to the outside world. You will assign public IPs to your instances from this network.
+
+```bash
+. keystonerc_admin
+neutron net-create public --shared --router:external=True --provider:network_type=vxlan --provider:segmentation_id=96
+neutron subnet-create --name public_subnet --enable-dhcp --allocation-pool start=192.168.178.100,end=192.168.178.150 public 192.168.178.0/24
+```
+
+Ensure to update the IPs for the allocation-pool and netmask with your local IPs.
+
+Setup Tenant Network/Subnet
+
+This is the private network your instances will attach to. Instances will be issued IPs from this private IP subnet.
+
+```bash
+. keystonerc_demo
+neutron net-create private
+neutron subnet-create --name private_subnet --dns-nameserver 8.8.8.8 --dns-nameserver 8.8.4.4 --allocation-pool start=10.0.30.10,end=10.0.30.254 private 10.0.30.0/24
+```
+
+Create an External Router to Attach to floating IP Network
+
+This router will attach to your private subnet and route to the public network, which is where your floating IPs are located.
+
+```bash
+neutron router-create extrouter
+neutron router-gateway-set extrouter public
+neutron router-interface-add extrouter private_subnet
+```
+
+
 
 OpenStack Ports:
 
