@@ -1217,12 +1217,12 @@ OPENSTACK_KEYSTONE_DEFAULT_ROLE = "user"
 
 OPENSTACK_NEUTRON_NETWORK = {
     ...
-    'enable_router': False,
+    'enable_router': True,
     'enable_quotas': False,
     'enable_distributed_router': False,
     'enable_ha_router': False,
     'enable_lb': False,
-    'enable_firewall': False,
+    'enable_firewall': True,
     'enable_vpn': False,
     'enable_fip_topology_check': False,
 }
@@ -1346,6 +1346,8 @@ iscsi_ip_address=172.31.32.70
 Populate the Block Storage database:
 
 ```bash
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 su -s /bin/sh -c "cinder-manage db sync" cinder
 ```
 
