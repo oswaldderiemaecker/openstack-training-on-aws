@@ -1034,7 +1034,7 @@ metadata_proxy_shared_secret = METADATA_SECRET
 
 Replace METADATA_SECRET with a suitable secret for the metadata proxy.
 
-Install and configure compute node:
+**Install and configure compute node:**
 
 ```bash
 yum install openstack-neutron-linuxbridge ebtables ipset
