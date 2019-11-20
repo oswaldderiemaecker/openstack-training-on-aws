@@ -1346,6 +1346,8 @@ iscsi_ip_address=172.31.32.70
 Populate the Block Storage database:
 
 ```bash
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 su -s /bin/sh -c "cinder-manage db sync" cinder
 ```
 
