@@ -1702,8 +1702,6 @@ neutron router-gateway-set extrouter public
 neutron router-interface-add extrouter private_subnet
 ```
 
-
-
 OpenStack Ports:
 
 OpenStack Service      Port
