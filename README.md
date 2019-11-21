@@ -6,7 +6,7 @@ Use the [AWS CloudFormation template](OpenStack-allinone.yml) to create an OpenS
 
 For simplicity we will use the password **rootroot** for all passwords.
 
-This is a "all in one" installation where everything is on the Controller.
+This is a **"all in one"** installation where everything is on the Controller.
 
 It is recommended to make snapshots often so you can go back if any goes wrong.
 
