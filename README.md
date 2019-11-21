@@ -10,7 +10,7 @@ This is a **"all in one"** installation where everything is on the Controller.
 
 It is recommended to make snapshots often so you can go back if any goes wrong.
 
-The purpose of this training is to learn by installing OpenStack from Scratch and practices using the labs (not included in this repository)
+The purpose of this training is to learn by installing all core OpenStack services from Scratch and practicing using the Labs (not included in this repository)
 
 Follow the instructions steps by steps.
 
