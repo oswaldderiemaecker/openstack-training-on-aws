@@ -1,5 +1,7 @@
 # OpenStack Rocky on AWS (Training)
 
+![](https://github.com/oswaldderiemaecker/openstack-training-on-aws/blob/master/screenshots/neutron.png)
+
 Use the [AWS CloudFormation template](OpenStack-allinone.yml) to create an OpenStack Base install Stack.
 
 For simplicity we will use the password **rootroot** for all passwords.
