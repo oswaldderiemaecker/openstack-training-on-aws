@@ -22,6 +22,7 @@ ssh-keygen -f ~/.ssh/admin-key
 openstack keypair create --public-key ~/.ssh/admin-key.pub admin-key
 openstack keypair list
 
+NIC=$(openstack network list | grep public | awk '{print $2}')
 openstack server create --flavor m1.tiny --image cirros --security-group web-ssh-enc --key-name admin-key --nic net-id=$NIC myencryptedinstance
 
 sleep 20
