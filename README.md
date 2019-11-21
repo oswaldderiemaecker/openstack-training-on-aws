@@ -641,13 +641,6 @@ project_name = service
 username = nova
 password = rootroot
 
-[vnc]
-enabled = true
-server_listen = $my_ip
-server_proxyclient_address = $my_ip
-novncproxy_base_url = http://3.229.11.186:6080/vnc_auto.html
-vncserver_proxyclient_address=3.229.11.186
-
 [glance]
 api_servers = http://controller:9292
 
@@ -670,14 +663,6 @@ password = rootroot
 ```bash
 [DEFAULT]
 my_ip = 172.31.32.70
-...
-```
-
-**replace the 3.229.11.186 ip of the VNC to your public IP**
-
-```bash
-novncproxy_base_url = http://3.229.11.186:6080/vnc_auto.html
-vncserver_proxyclient_address=3.229.11.186
 ...
 ```
 
@@ -783,9 +768,10 @@ password = rootroot
 
 [vnc]
 enabled = true
-server_listen = 0.0.0.0
+server_listen = $my_ip
 server_proxyclient_address = $my_ip
-novncproxy_base_url = http://controller:6080/vnc_auto.html
+novncproxy_base_url = http://3.229.11.186:6080/vnc_auto.html
+vncserver_proxyclient_address=3.229.11.186
 
 [glance]
 api_servers = http://controller:9292
@@ -802,6 +788,14 @@ user_domain_name = Default
 auth_url = http://controller:5000/v3
 username = placement
 password = rootroot
+```
+
+**replace the 3.229.11.186 ip of the VNC to your public IP**
+
+```bash
+novncproxy_base_url = http://3.229.11.186:6080/vnc_auto.html
+vncserver_proxyclient_address=3.229.11.186
+...
 ```
 
 Finalize installation:
