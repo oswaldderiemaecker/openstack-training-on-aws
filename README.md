@@ -111,7 +111,7 @@ ntpdate -u 0.europe.pool.ntp.org
 **On all Nodes install:**
 
 ```bash
-yum install centos-release-openstack-rocky -y
+yum install centos-release-openstack-train -y
 yum update -y
 yum install python-openstackclient openstack-selinux -y
 ```
@@ -238,6 +238,8 @@ provider = fernet
 Populate the Identity service database:
 
 ```bash
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 su -s /bin/sh -c "keystone-manage db_sync" keystone
 ```
 
@@ -688,6 +690,34 @@ Restart apache:
 systemctl restart httpd.service
 ```
 
+Edit the /etc/placement/placement.conf file and complete the following actions:
+
+```bash
+[DEFAULT]
+
+[placement_database]
+connection = mysql+pymysql://placement:rootroot@controller/placement
+
+[api]
+auth_strategy = keystone
+
+[keystone_authtoken]
+auth_url = http://controller:5000/v3
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = placement
+password = rootroot
+```
+
+Populate the placement database:
+
+```bash
+su -s /bin/sh -c "placement-manage db sync" placement
+```
+
 Change the owner of the nova placement api:
 
 ```bash
@@ -1008,6 +1038,10 @@ net.bridge.bridge-nf-call-ip6tables
 
 To enable networking bridge support, typically the br_netfilter kernel module needs to be loaded. Check your operating system’s documentation for additional details on enabling this module.
 
+```bash
+modprobe br_netfilter
+```
+
 Configure the layer-3 agent:
 
 Edit the /etc/neutron/l3_agent.ini file and complete the following actions:
@@ -1197,8 +1231,10 @@ yum install openstack-dashboard -y
 Edit the /etc/openstack-dashboard/local_settings file and replace with the following actions:
 
 ```bash
+# -*- coding: utf-8 -*-
 OPENSTACK_HOST = "controller"
-ALLOWED_HOSTS = [‘*’]
+WEBROOT = '/dashboard'
+ALLOWED_HOSTS = ['*']
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
@@ -1333,11 +1369,10 @@ password = rootroot
 lock_path = /var/lib/cinder/tmp
 
 [lvm]
-iscsi_helper=lioadm
-iscsi_ip_address=172.31.32.70
-volume_driver=cinder.volume.drivers.lvm.LVMVolumeDriver
-volumes_dir=/var/lib/cinder/volumes
-volume_backend_name=lvm
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinder-volumes
+target_protocol = iscsi
+target_helper = lioadm
 ```
 
 **Change the iscsi_ip_address to your controller IP:**
@@ -1657,12 +1692,6 @@ openstack volume service list
 | cinder-scheduler | controller     | nova | enabled | up    | 2017-10-28T13:12:53.000000 |
 | cinder-volume    | controller@lvm | nova | enabled | up    | 2017-10-28T13:12:49.000000 |
 +------------------+----------------+------+---------+-------+----------------------------+
-```
-
-Nova Status:
-
-```bash
-nova-status upgrade check
 ```
 
 ## 2.8 Finalize the configuration of OpenStack
