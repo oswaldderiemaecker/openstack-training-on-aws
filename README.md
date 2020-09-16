@@ -723,13 +723,6 @@ Populate the placement database:
 su -s /bin/sh -c "placement-manage db sync" placement
 ```
 
-Change the owner of the nova placement api:
-
-```bash
-chown nova:nova /usr/bin/nova-placement-api
-chown nova:nova /var/log/nova/nova-placement-api.log
-```
-
 Populate the Compute databases:
 
 Populate the nova-api and placement databases:
