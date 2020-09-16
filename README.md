@@ -691,7 +691,7 @@ systemctl restart httpd.service
 ```
 
 ```bash
-yum install openstack-placement-api
+yum install -y openstack-placement-api
 mkdir /etc/placement/
 ```
 
@@ -1358,6 +1358,7 @@ Edit the /etc/cinder/cinder.conf file and replace with the following actions:
 
 ```bash
 [DEFAULT]
+my_ip = 172.31.32.70
 transport_url=rabbit://openstack:rootroot@controller.example.com:5672/
 auth_strategy = keystone
 enabled_backends = lvm
@@ -1385,6 +1386,15 @@ volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
 volume_group = cinder-volumes
 target_protocol = iscsi
 target_helper = lioadm
+```
+
+**Change the iscsi_ip_address to your controller IP:**
+
+```bash
+[lvm]
+...
+iscsi_ip_address=172.31.32.70
+...
 ```
 
 Populate the Block Storage database:
@@ -1612,14 +1622,20 @@ openstack compute service list
 +----+------------------+------------+----------+---------+-------+----------------------------+
 
 openstack network agent list
-+--------------------------------------+--------------------+-------------------------------+-------------------+-------+-------+---------------------------+
-| ID                                   | Agent Type         | Host                          | Availability Zone | Alive | State | Binary                    |
-+--------------------------------------+--------------------+-------------------------------+-------------------+-------+-------+---------------------------+
-| 02334ef3-e82d-4c70-a149-c014c5ce47be | L3 agent           | ip-172-31-32-155.ec2.internal | nova              | :-)   | UP    | neutron-l3-agent          |
-| 6169ca61-b635-4e6b-9d17-82eb461f28c6 | Metadata agent     | ip-172-31-32-155.ec2.internal | None              | :-)   | UP    | neutron-metadata-agent    |
-| a0081bd5-eca6-4b2f-b560-a2428da6b4e3 | DHCP agent         | ip-172-31-32-155.ec2.internal | nova              | :-)   | UP    | neutron-dhcp-agent        |
-| a23c9e12-95a3-4a05-9687-13eb89a74d0b | Linux bridge agent | ip-172-31-32-155.ec2.internal | None              | :-)   | UP    | neutron-linuxbridge-agent |
-+--------------------------------------+--------------------+-------------------------------+-------------------+-------+-------+---------------------------+
++---------------------+--------------------+---------+-------------------+-------+-------+-----------------------+
+| ID                  | Agent Type         | Host    | Availability Zone | Alive | State | Binary                |
++---------------------+--------------------+---------+-------------------+-------+-------+-----------------------+
+| 002a66db-4c2a-4b7f- | DHCP agent         | network | nova              | True  | UP    | neutron-dhcp-agent    |
+| be0c-3fafa02b0605   |                    |         |                   |       |       |                       |
+| 1f516dea-104f-43b9  | Open vSwitch agent | compute | None              | True  | UP    | neutron-openvswitch-  |
+| -bc7c-8e1611ffd7a5  |                    |         |                   |       |       | agent                 |
+| 38b2b976-c4bb-4b48- | Open vSwitch agent | network | None              | True  | UP    | neutron-openvswitch-  |
+| 8a33-232de0608e0d   |                    |         |                   |       |       | agent                 |
+| 67807e3d-3833-4a67- | L3 agent           | network | nova              | True  | UP    | neutron-l3-agent      |
+| 9086-a7cb23f81f00   |                    |         |                   |       |       |                       |
+| 7d2e2b57-eda7-470e- | Metadata agent     | network | None              | True  | UP    | neutron-metadata-     |
+| a6e4-020a55600d3a   |                    |         |                   |       |       | agent                 |
++---------------------+--------------------+---------+-------------------+-------+-------+-----------------------+
 
 openstack hypervisor list
 +----+-----------------------------+-----------------+--------------+-------+
