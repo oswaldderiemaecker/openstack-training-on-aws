@@ -1381,15 +1381,6 @@ target_protocol = iscsi
 target_helper = lioadm
 ```
 
-**Change the iscsi_ip_address to your controller IP:**
-
-```bash
-[lvm]
-...
-iscsi_ip_address=172.31.32.70
-...
-```
-
 Populate the Block Storage database:
 
 ```bash
