@@ -34,6 +34,7 @@ systemctl stop --force neutron-linuxbridge-agent.service
 systemctl stop --force neutron-l3-agent.service
 systemctl stop --force neutron-dhcp-agent.service
 systemctl stop --force neutron-metadata-agent.service
+killall dnsmasq
 systemctl stop --force openstack-heat-api.service openstack-heat-api-cfn.service openstack-heat-engine.service
 
 echo "Starting Services"
