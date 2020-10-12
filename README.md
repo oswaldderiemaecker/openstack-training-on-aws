@@ -356,7 +356,7 @@ unset OS_AUTH_URL OS_PASSWORD
 As the admin user, request an authentication token:
 
 ```bash
-openstack --os-auth-url http://controller.example.com:35357/v3 --os-project-domain-name Default --os-user-domain-name Default --os-project-name admin --os-username admin token issue
+openstack --os-auth-url http://controller.example.com:5000/v3 --os-project-domain-name Default --os-user-domain-name Default --os-project-name admin --os-username admin token issue
 ```
 
 As the demo user, request an authentication token:
