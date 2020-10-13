@@ -1,4 +1,4 @@
-# OpenStack Rocky on AWS (Training)
+# OpenStack Train on AWS (Training)
 
 ![](https://github.com/oswaldderiemaecker/openstack-training-on-aws/blob/master/screenshots/neutron.png)
 
@@ -106,7 +106,7 @@ yum install ntpdate -y
 ntpdate -u 0.europe.pool.ntp.org
 ```
 
-## 1.7 Set OpenStack Rocky Repository
+## 1.7 Set OpenStack Train Repository
 
 **On all Nodes install:**
 
@@ -1606,20 +1606,14 @@ openstack compute service list
 +----+------------------+------------+----------+---------+-------+----------------------------+
 
 openstack network agent list
-+---------------------+--------------------+---------+-------------------+-------+-------+-----------------------+
-| ID                  | Agent Type         | Host    | Availability Zone | Alive | State | Binary                |
-+---------------------+--------------------+---------+-------------------+-------+-------+-----------------------+
-| 002a66db-4c2a-4b7f- | DHCP agent         | network | nova              | True  | UP    | neutron-dhcp-agent    |
-| be0c-3fafa02b0605   |                    |         |                   |       |       |                       |
-| 1f516dea-104f-43b9  | Open vSwitch agent | compute | None              | True  | UP    | neutron-openvswitch-  |
-| -bc7c-8e1611ffd7a5  |                    |         |                   |       |       | agent                 |
-| 38b2b976-c4bb-4b48- | Open vSwitch agent | network | None              | True  | UP    | neutron-openvswitch-  |
-| 8a33-232de0608e0d   |                    |         |                   |       |       | agent                 |
-| 67807e3d-3833-4a67- | L3 agent           | network | nova              | True  | UP    | neutron-l3-agent      |
-| 9086-a7cb23f81f00   |                    |         |                   |       |       |                       |
-| 7d2e2b57-eda7-470e- | Metadata agent     | network | None              | True  | UP    | neutron-metadata-     |
-| a6e4-020a55600d3a   |                    |         |                   |       |       | agent                 |
-+---------------------+--------------------+---------+-------------------+-------+-------+-----------------------+
++--------------------------------------+--------------------+---------------------------------------------+-------------------+-------+-------+---------------------------+
+| ID                                   | Agent Type         | Host                                        | Availability Zone | Alive | State | Binary                    |
++--------------------------------------+--------------------+---------------------------------------------+-------------------+-------+-------+---------------------------+
+| 0089b0c1-fbd8-4744-b90e-12954d3195d8 | Metadata agent     | ip-172-31-33-205.us-west-1.compute.internal | None              | :-)   | UP    | neutron-metadata-agent    |
+| 27d1b65d-109a-4f57-99f8-eef44e6e1500 | Linux bridge agent | ip-172-31-33-205.us-west-1.compute.internal | None              | :-)   | UP    | neutron-linuxbridge-agent |
+| bffbab15-a0c2-402a-9227-81bb6120e821 | L3 agent           | ip-172-31-33-205.us-west-1.compute.internal | nova              | :-)   | UP    | neutron-l3-agent          |
+| c52da533-3f3b-4eeb-b2cb-578166a83b20 | DHCP agent         | ip-172-31-33-205.us-west-1.compute.internal | nova              | :-)   | UP    | neutron-dhcp-agent        |
++--------------------------------------+--------------------+---------------------------------------------+-------------------+-------+-------+---------------------------+
 
 openstack hypervisor list
 +----+-----------------------------+-----------------+--------------+-------+
