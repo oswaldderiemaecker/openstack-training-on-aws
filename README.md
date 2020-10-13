@@ -1149,7 +1149,7 @@ systemctl status neutron-server.service neutron-linuxbridge-agent.service neutro
 ```
 
 ```bash
-systemctl restart openstack-nova-api.service openstack-nova-consoleauth.service openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
+systemctl restart openstack-nova-api.service openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
 systemctl restart neutron-server.service
 systemctl restart openstack-glance-api.service openstack-glance-registry.service
 systemctl restart httpd.service memcached.service
@@ -1160,7 +1160,6 @@ Verify all is running fine:
 
 ```bash
 systemctl status openstack-nova-api.service
-systemctl status openstack-nova-consoleauth.service
 systemctl status openstack-nova-scheduler.service
 systemctl status openstack-nova-conductor.service
 systemctl status openstack-nova-novncproxy.service
@@ -1504,7 +1503,7 @@ systemctl status openstack-cinder-backup.service
 Restart the services:
 
 ```bash
-systemctl restart openstack-nova-api.service openstack-nova-consoleauth.service openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
+systemctl restart openstack-nova-api.service openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
 systemctl restart neutron-server.service
 systemctl restart openstack-glance-api.service openstack-glance-registry.service
 systemctl restart httpd.service memcached.service
@@ -1520,7 +1519,6 @@ Verify all is running fine:
 
 ```bash
 systemctl status openstack-nova-api.service
-systemctl status openstack-nova-consoleauth.service
 systemctl status openstack-nova-scheduler.service
 systemctl status openstack-nova-conductor.service
 systemctl status openstack-nova-novncproxy.service
