@@ -1444,7 +1444,7 @@ I/O size (minimum/optimal): 512 bytes / 512 bytes
 Create the LVM volume (using loop for testing purpose, should use lvm partition):
 
 ```bash
-dd if=/dev/zero of=/var/lib/cinder/cinder-volumes bs=1G count=4
+dd if=/dev/zero of=/var/lib/cinder/cinder-volumes bs=1G count=12
 losetup /dev/loop0 /var/lib/cinder/cinder-volumes
 pvcreate /dev/loop0
 vgcreate "cinder-volumes" /dev/loop0
