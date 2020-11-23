@@ -2,7 +2,7 @@
 
 ```bash
 sudo -i
-yum update
+yum update -y
 yum install -y epel-release
 yum install -y nodejs
 node --version
