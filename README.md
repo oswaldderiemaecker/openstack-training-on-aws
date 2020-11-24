@@ -763,9 +763,9 @@ nova-manage cell_v2 list_cells
 Start the Compute service and configure them to start when the system boots:
 
 ```bash
-systemctl enable openstack-nova-api.service openstack-nova-consoleauth openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
-systemctl start openstack-nova-api.service openstack-nova-consoleauth openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
-systemctl status openstack-nova-api.service openstack-nova-consoleauth openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
+systemctl enable openstack-nova-api.service openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
+systemctl start openstack-nova-api.service openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
+systemctl status openstack-nova-api.service openstack-nova-scheduler.service openstack-nova-conductor.service openstack-nova-novncproxy.service
 ```
 
 ### 2.2.2.2 Install and configure compute node
@@ -879,9 +879,8 @@ openstack compute service list
 | ID | Binary           | Host       | Zone     | Status  | State | Updated At                 |
 +----+------------------+------------+----------+---------+-------+----------------------------+
 |  1 | nova-conductor   | controller | internal | enabled | up    | 2017-11-04T10:10:18.000000 |
-|  2 | nova-consoleauth | controller | internal | enabled | up    | 2017-11-04T10:10:17.000000 |
-|  3 | nova-scheduler   | controller | internal | enabled | up    | 2017-11-04T10:10:17.000000 |
-|  6 | nova-compute     | controller | nova     | enabled | up    | 2017-11-04T10:10:20.000000 |
+|  2 | nova-scheduler   | controller | internal | enabled | up    | 2017-11-04T10:10:17.000000 |
+|  3 | nova-compute     | controller | nova     | enabled | up    | 2017-11-04T10:10:20.000000 |
 +----+------------------+------------+----------+---------+-------+----------------------------+
 ```
 
@@ -1197,9 +1196,8 @@ openstack compute service list
 | ID | Binary           | Host       | Zone     | Status  | State | Updated At                 |
 +----+------------------+------------+----------+---------+-------+----------------------------+
 |  1 | nova-conductor   | controller | internal | enabled | up    | 2017-11-04T11:09:50.000000 |
-|  2 | nova-consoleauth | controller | internal | enabled | up    | 2017-11-04T11:09:40.000000 |
-|  3 | nova-scheduler   | controller | internal | enabled | up    | 2017-11-04T11:09:41.000000 |
-|  6 | nova-compute     | controller | nova     | enabled | up    | 2017-11-04T11:09:46.000000 |
+|  2 | nova-scheduler   | controller | internal | enabled | up    | 2017-11-04T11:09:41.000000 |
+|  3 | nova-compute     | controller | nova     | enabled | up    | 2017-11-04T11:09:46.000000 |
 +----+------------------+------------+----------+---------+-------+----------------------------+
 
 openstack network agent list
@@ -1597,10 +1595,9 @@ openstack compute service list
 +----+------------------+------------+----------+---------+-------+----------------------------+
 | ID | Binary           | Host       | Zone     | Status  | State | Updated At                 |
 +----+------------------+------------+----------+---------+-------+----------------------------+
-|  1 | nova-consoleauth | controller | internal | enabled | up    | 2017-10-26T17:21:04.000000 |
-|  2 | nova-conductor   | controller | internal | enabled | up    | 2017-10-26T17:21:09.000000 |
-|  3 | nova-scheduler   | controller | internal | enabled | up    | 2017-10-26T17:21:04.000000 |
-|  6 | nova-compute     | compute    | nova     | enabled | up    | 2017-10-26T17:21:03.000000 |
+|  1 | nova-conductor   | controller | internal | enabled | up    | 2017-10-26T17:21:09.000000 |
+|  2 | nova-scheduler   | controller | internal | enabled | up    | 2017-10-26T17:21:04.000000 |
+|  3 | nova-compute     | compute    | nova     | enabled | up    | 2017-10-26T17:21:03.000000 |
 +----+------------------+------------+----------+---------+-------+----------------------------+
 
 openstack network agent list
