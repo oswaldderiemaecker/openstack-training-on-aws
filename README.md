@@ -1715,6 +1715,7 @@ openstack router show extrouter
 Block Storage:
 
 ```bash
+. keystonerc_admin
 openstack volume service list
 +------------------+----------------+------+---------+-------+----------------------------+
 | Binary           | Host           | Zone | Status  | State | Updated At                 |
@@ -1743,9 +1744,4 @@ http                   80
 Mysql                  3306
 AMQP                   5672
 
-Update the hours on the Nodes:
 
-```bash
-yum install ntpdate
-ntpdate -u 0.europe.pool.ntp.org
-```
