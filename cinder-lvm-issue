@@ -1,0 +1,2 @@
+# dmsetup info -C
+# dmsetup remove [dm_map_name]
