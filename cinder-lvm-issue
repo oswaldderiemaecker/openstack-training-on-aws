@@ -1,2 +1,8 @@
 # dmsetup info -C
 # dmsetup remove [dm_map_name]
+
+systemctl restart openstack-losetup.service
+systemctl restart openstack-cinder-api.service
+systemctl restart openstack-cinder-scheduler.service
+systemctl restart openstack-cinder-volume.service
+systemctl restart openstack-cinder-backup.service
