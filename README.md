@@ -1029,8 +1029,8 @@ Replace **OVERLAY_INTERFACE_IP_ADDRESS** with the IP address of the underlying p
 Ensure your Linux operating system kernel supports network bridge filters by verifying all the following sysctl values are set to 1:
 
 ```bash
-net.bridge.bridge-nf-call-iptables
-net.bridge.bridge-nf-call-ip6tables
+sysctl net.bridge.bridge-nf-call-iptables
+sysctl net.bridge.bridge-nf-call-ip6tables
 ```
 
 To enable networking bridge support, typically the **br_netfilter** kernel module needs to be loaded. Check your operating system’s documentation for additional details on enabling this module.
