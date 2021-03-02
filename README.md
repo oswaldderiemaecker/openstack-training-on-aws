@@ -1581,6 +1581,15 @@ systemctl status libvirtd.service openstack-nova-compute.service
 Checks on the controller:
 
 ```bash
+openstack volume service list
++------------------+----------------------------------+------+---------+-------+----------------------------+
+| Binary           | Host                             | Zone | Status  | State | Updated At                 |
++------------------+----------------------------------+------+---------+-------+----------------------------+
+| cinder-scheduler | ip-172-31-89-74.ec2.internal     | nova | enabled | up    | 2021-03-02T16:10:23.000000 |
+| cinder-backup    | ip-172-31-89-74.ec2.internal     | nova | enabled | up    | 2021-03-02T16:10:28.000000 |
+| cinder-volume    | ip-172-31-89-74.ec2.internal@lvm | nova | enabled | up    | 2021-03-02T16:10:23.000000 |
++------------------+----------------------------------+------+---------+-------+----------------------------+
+
 openstack compute service list
 +----+------------------+------------+----------+---------+-------+----------------------------+
 | ID | Binary           | Host       | Zone     | Status  | State | Updated At                 |
