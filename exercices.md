@@ -150,7 +150,6 @@ IP=$(openstack server list --name mywebinstance-from-new-image -f value -c Netwo
 ip netns exec $ROUTER ssh -i $HOME/.ssh/myuser-key cirros@$IP 'sudo /sbin/fdisk -l'
 openstack server remove volume mywebinstance-from-new-image mynewtestvolume1-from-snapshot
 openstack volume snapshot delete mytestvolume1-snapshot
-openstack server remove volume mywebinstance-from-new-image  mynewtestvolume1-from-snapshot
 openstack volume snapshot list
 openstack server delete mywebinstance
 openstack server delete mywebinstance-from-new-image
