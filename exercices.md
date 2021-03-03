@@ -1,17 +1,10 @@
 # Exercices
 
 ```bash
-systemctl restart openstack-losetup.service
-systemctl restart openstack-cinder-api.service
-systemctl restart openstack-cinder-scheduler.service
-systemctl restart openstack-cinder-volume.service
-systemctl restart openstack-cinder-backup.service
-
 openstack compute service list
 openstack network agent list
 openstack hypervisor list
 openstack volume service list
-nova-status upgrade check
 vgdisplay
 ```
 
