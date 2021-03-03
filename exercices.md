@@ -141,8 +141,8 @@ ip netns exec $ROUTER ssh -i $HOME/.ssh/myuser-key cirros@$IP ls -l
 ```bash
 . keystonerc_myuser
 openstack volume list
-openstack snapshot create --name mytestvolume1-snapshot mytestvolume1
-openstack snapshot list
+openstack volume snapshot create --volume mytestvolume1 mytestvolume1-snapshot
+openstack volume snapshot list
 openstack volume create --size 1 --snapshot mytestvolume1-snapshot mynewtestvolume1-from-snapshot
 openstack server add volume --device /dev/vdb mywebinstance-from-new-image mynewtestvolume1-from-snapshot
 openstack server show mywebinstance-from-new-image
