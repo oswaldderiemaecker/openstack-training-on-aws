@@ -40,7 +40,7 @@ su -s /bin/sh -c "barbican-manage db upgrade" barbican
 echo '
 Listen 9311
 
-<VirtualHost [::1]:9311>
+<VirtualHost *:9311>
     ServerName controller
 
     ## Logging
