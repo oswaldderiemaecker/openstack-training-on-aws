@@ -54,6 +54,16 @@ Listen 9311
     WSGIProcessGroup barbican-api
     WSGIScriptAlias / "/usr/lib/python2.7/site-packages/barbican/api/app.wsgi"
     WSGIPassAuthorization On
+    
+    <Directory /usr/lib/python2.7/site-packages/barbican/api>
+    <IfVersion >= 2.4>
+      Require all granted
+    </IfVersion>
+    <IfVersion < 2.4>
+      Order allow,deny
+      Allow from all
+    </IfVersion>
+</Directory>
 </VirtualHost>
 ' >  /etc/httpd/conf.d/wsgi-barbican.conf
 
